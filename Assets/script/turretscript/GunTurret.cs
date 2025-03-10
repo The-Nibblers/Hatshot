@@ -134,46 +134,48 @@ public class GunTurret : MonoBehaviour
      {
          yield return new WaitForSeconds(2f);
 
-         if (!seePlayer && isShooting && isDestroyed)
-             yield break;
-         
-         isShooting = true;
-         fpscontroller.damaging();
-             
-         if (isLeftBarrel)
+         if (seePlayer && !isShooting && !isDestroyed)
          {
-                 
-             gunLeft.Play();
-             particlesLeft.Play();
-             
-             lightLeft.gameObject.SetActive(true);
-             
-             yield return new WaitForSeconds(0.06f);
-             
-             particlesLeft.Stop();
-             lightLeft.gameObject.SetActive(false);
-             
-             isLeftBarrel = false;
-         }
-         if (!isLeftBarrel)
-         {
-             gunRight.Play();
-             particlesRight.Play();
-             
-             lightRight.gameObject.SetActive(true);
-             
-             yield return new WaitForSeconds(0.06f);
-             
-             particlesRight.Stop();
-             lightRight.gameObject.SetActive(false);
-             
-             isLeftBarrel = true;
-         }
 
-         isShooting = false;
-             
-         
-    }
+
+             isShooting = true;
+             fpscontroller.damaging();
+
+             if (isLeftBarrel)
+             {
+
+                 gunLeft.Play();
+                 particlesLeft.Play();
+
+                 lightLeft.gameObject.SetActive(true);
+
+                 yield return new WaitForSeconds(0.06f);
+
+                 particlesLeft.Stop();
+                 lightLeft.gameObject.SetActive(false);
+
+                 isLeftBarrel = false;
+             }
+
+             if (!isLeftBarrel)
+             {
+                 gunRight.Play();
+                 particlesRight.Play();
+
+                 lightRight.gameObject.SetActive(true);
+
+                 yield return new WaitForSeconds(0.06f);
+
+                 particlesRight.Stop();
+                 lightRight.gameObject.SetActive(false);
+
+                 isLeftBarrel = true;
+             }
+
+             isShooting = false;
+
+         }
+     }
 
      //referenced in other script, death logic
    public void Explode()
