@@ -6,29 +6,34 @@ using UnityEngine.UI;
 public class endscript : MonoBehaviour
 {
     //animators
-    public Animator UI;
-    public Animator cuts;
+    [SerializeField] private Animator UI;
+    [SerializeField] private Animator cuts;
 
     //audio
-    public AudioSource endstinger;
+    [SerializeField] private AudioSource endstinger;
 
     //screenshake
-    public screenShake cameraShake;
+    [SerializeField] private screenShake cameraShake;
 
     //cameras
-    public Camera cutscenecam;
-    public Camera fpscam;
-
-    //explosions
-    public GameObject exploder;
-    public GameObject exploder2;
-    public GameObject exploder3;
-    public GameObject exploder4;
-    public GameObject exploder5;
+    [SerializeField] private Camera cutscenecam;
+    private Camera fpscam;
+    
+    [Header("explosions")]
+    [SerializeField] private GameObject exploder;
+    [SerializeField] private GameObject exploder2;
+    [SerializeField] private GameObject exploder3;
+    [SerializeField] private GameObject exploder4;
+    [SerializeField] private GameObject exploder5;
+    
+    private cutscenebridge cutscenebridge1;
 
 
     private void Start()
     {
+        cutscenebridge1 = FindObjectOfType<cutscenebridge>();
+
+        fpscam = Camera.main;
         cutscenecam.gameObject.SetActive(false);
 
         exploder.gameObject.SetActive(false);
@@ -42,7 +47,7 @@ public class endscript : MonoBehaviour
     public void theEnd()
     {
         //hideUI
-        FindObjectOfType<cutscenebridge>().hideUI();
+        cutscenebridge1.hideUI();
 
         //cameraenablers
         cutscenecam.gameObject.SetActive(true);
@@ -51,7 +56,7 @@ public class endscript : MonoBehaviour
         StartCoroutine(cutscene());
     }
 
-    IEnumerator cutscene()
+    private IEnumerator cutscene()
     {
         //cutscene
         cuts.SetTrigger("scene");
@@ -62,14 +67,14 @@ public class endscript : MonoBehaviour
         //initiate thanks
         StartCoroutine(thankPlayer());
     }
-    IEnumerator thankPlayer()
+    private IEnumerator thankPlayer()
     {
         UI.SetTrigger("open");
         yield return new WaitForSeconds(10);
         AppHelper.Quit();
     }
 
-    IEnumerator explode()
+    private IEnumerator explode()
     {
         exploder.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.5f);
