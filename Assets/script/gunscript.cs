@@ -97,10 +97,24 @@ public class gunscript : MonoBehaviour
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             //turret death code
+            if(hit.transform.tag == "enemy")
+            {
+                StartCoroutine(cameraShake.Shake(1f, .10f));
+                hit.transform.GetComponentInChildren<GunTurret>()?.Explode();
+                GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
+                explosion.GetComponent<ParticleSystem>().Play();
+                Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
+                hit.transform.gameObject.AddComponent<Rigidbody>();
+                rb = hit.transform.gameObject.GetComponent<Rigidbody>();
+                rb.AddForce(fpsCam.transform.forward * 1000f);
+            }
+            
+            
+            
             if(hit.transform.tag == "enemy1")
             {
                 StartCoroutine(cameraShake.Shake(1f, .10f));
-                FindObjectOfType<GunTurret>().Explode();
+                hit.transform.GetComponentInChildren<GunTurret>()?.Explode();
                 GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
                 explosion.GetComponent<ParticleSystem>().Play();
                 Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
@@ -111,7 +125,7 @@ public class gunscript : MonoBehaviour
             else if (hit.transform.tag == "enemy2")
             {
                 StartCoroutine(cameraShake.Shake(1f, .10f));
-                FindObjectOfType<turret2>().explode();
+                hit.transform.GetComponentInChildren<GunTurret>()?.Explode();
                 GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
                 explosion.GetComponent<ParticleSystem>().Play();
                 Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);

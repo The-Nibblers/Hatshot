@@ -80,7 +80,7 @@ public class cutscenebridge : MonoBehaviour
     {
         cutsceneCam.gameObject.SetActive(false);
         turret1.gameObject.SetActive(false);
-        turret2.gameObject.SetActive(false);
+       // turret2.gameObject.SetActive(false);
         turret3.gameObject.SetActive(false);
         turret4.gameObject.SetActive(false);
         turret5.gameObject.SetActive(false);
