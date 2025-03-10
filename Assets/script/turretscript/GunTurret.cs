@@ -66,6 +66,23 @@ public class GunTurret : MonoBehaviour
         onLosePlayer.AddListener(PlayerLost);
     }
     
+    private void Update() 
+    {
+        DetectPlayer();
+        
+        //idle rotation of turret
+        if (seePlayer && isDestroyed)
+            return;
+            
+        transform.Rotate(0, turnSpeed, 0);
+        
+        if ((transform.rotation.eulerAngles.y > maxTurn && transform.rotation.eulerAngles.y < 180) ||
+            (transform.rotation.eulerAngles.y < 360 - maxTurn && transform.rotation.eulerAngles.y > 180))
+        {
+            turnSpeed *= -1;
+        }
+    }
+    
     private void DetectPlayer()
     {
         Vector3 sight = player.transform.position - transform.position;
@@ -111,23 +128,6 @@ public class GunTurret : MonoBehaviour
             idleAudio.Play();   
         }
     } 
-    
-    private void Update() 
-    {
-        DetectPlayer();
-        
-        //idle rotation of turret
-        if (seePlayer && isDestroyed)
-            return;
-            
-        transform.Rotate(0, turnSpeed, 0);
-        
-        if ((transform.rotation.eulerAngles.y > maxTurn && transform.rotation.eulerAngles.y < 180) ||
-            (transform.rotation.eulerAngles.y < 360 - maxTurn && transform.rotation.eulerAngles.y > 180))
-        {
-            turnSpeed *= -1;
-        }
-    }
     
     //shoot at the player, alternating gun barrels
      IEnumerator Shoot()
