@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 
+//needs more reworking
 public class fpscontroller : MonoBehaviour
 {
     
