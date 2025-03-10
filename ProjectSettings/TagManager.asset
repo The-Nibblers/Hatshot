@@ -27,42 +27,16 @@ TagManager:
   - key3
   - metalnoise
   - cutscene
-  - enemy1
-  - enemy2
   - hitbox4
   - hitbox2
   - hitbox3
   - enemy
-  - enemy13
   - heal
-  - enemy19
-  - enemy12
-  - enemy14
-  - enemy7
-  - enemy6
-  - enemy9
-  - enemy21
-  - enemy10
-  - enemy24
-  - enemy22
-  - enemy3
-  - enemy15
-  - enemy26
-  - enemy4
-  - enemy18
-  - enemy20
-  - enemy11
-  - enemy25
-  - enemy16
-  - enemy8
-  - enemy23
-  - enemy5
-  - enemy27
-  - enemy28
-  - enemy29
-  - enemy31
-  - enemy32
-  - enemy30
+  - endbox
+  - hitbox5
+  - hitbox1
+  - end
+  - Enemy
   layers:
   - Default
   - TransparentFX
