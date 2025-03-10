@@ -4,73 +4,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 
 public class fpscontroller : MonoBehaviour
 {
 
-    public Rigidbody rb;
-    public float walkingSpeed = 11.5f;
+    private Rigidbody rb;
+    private Camera PlayerCamera;
+    
+    [Header("Player Variables")]
+    [SerializeField] private float walkingSpeed = 11.5f;
+    [SerializeField] private float jumpSpeed = 8.0f;
+    [SerializeField] private float gravity = 15.0f;
+    [SerializeField] private float lookSpeed = 2.0f;
+    [SerializeField] private float lookXLimit = 90.0f;
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashSpeed;
 
-    public float jumpSpeed = 8.0f;
-    public float gravity = 15.0f;
-    public Camera PlayerCamera;
-    public float lookSpeed = 2.0f;
-    public float lookXLimit = 90.0f;
-
+    
     // turtorial text
-    public Animator tuto;
+    [SerializeField] private Animator tuto;
 
     //metal screaching noise
-    public AudioSource screech;
-    public AudioSource mucis_loud;
-    public AudioSource heartbeat;
+    [SerializeField] private AudioSource screech;
+    [SerializeField] private AudioSource mucis_loud;
+    [SerializeField] private AudioSource heartbeat;
 
     //screenshake
-    public screenShake cameraShake;
+    [SerializeField] private screenShake cameraShake;
 
     // ui on death
-    public GameObject crosshair;
-    public GameObject deahtText;
-    public GameObject deathButton;
-
+    [SerializeField] private GameObject crosshair;
+    [SerializeField] private GameObject deahtText;
+    [SerializeField] private GameObject deathButton;
+ 
     //turret damage and health
     public float health = 100;
-    public float thehealth;
+    private float thehealth;
 
     //die rigidbody
-    public GameObject pl1;
-    public GameObject pl2;
-    public GameObject pl5;
+    [SerializeField] private GameObject pl1;
+    [SerializeField] private GameObject pl2;
+    [SerializeField] private GameObject pl5;
 
     //dash
-    public float dashTime;
-    public float dashSpeed;
-    public AudioSource dashsfx;
-    public int canDash = 1;
-    private float coolDownPeriodInSeconds = 0.15f;
+  
+    [SerializeField] private AudioSource dashsfx;
+    private int canDash = 1;
+    [SerializeField] private float coolDownPeriodInSeconds = 0.15f;
 
-    // doublejump
-    public int fuckyou = 1;
-    public float doubleJumpSpeed = 120.0f;
+    // float
+    private int canFloat = 1;
+    [SerializeField] private float doubleJumpSpeed = 120.0f;
 
     //hat wearing
-    public GameObject doubleJumpHat;
+    [SerializeField] private GameObject doubleJumpHat;
 
-    CharacterController characterController;
-    Vector3 moveDirection = Vector3.zero;
-    float rotationX = 0;
+    private CharacterController characterController;
+    private Vector3 moveDirection = Vector3.zero;
+    private float rotationX = 0;
+    
+    [HideInInspector] public bool canMove = true;
 
-    [HideInInspector]
-    public bool canMove = true;
-
-    [SerializeField]
-    private float delay = 0.5f;
+    [SerializeField] private float delay = 0.5f;
 
 
-    void Start()
+    private void Start()
     {
+        rb = pl2.GetComponent<Rigidbody>();
+        PlayerCamera = Camera.main;
+        
+        
         //hide cursor
         Cursor.visible = false;
 
@@ -93,7 +99,7 @@ public class fpscontroller : MonoBehaviour
         doubleJumpHat.gameObject.SetActive(true);
     }
 
-    void Update()
+    private void Update()
     {
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
@@ -105,7 +111,7 @@ public class fpscontroller : MonoBehaviour
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
         //jump
-        if (Input.GetButton("Jump") && canMove && fuckyou == 0)
+        if (Input.GetButton("Jump") && canMove && canFloat == 0)
         {
             StartCoroutine(jumpcd());
         }
@@ -118,7 +124,7 @@ public class fpscontroller : MonoBehaviour
         {
             moveDirection.y = jumpSpeed;
             yield return new WaitForSeconds(1);
-            fuckyou++;
+            canFloat++;
             yield return null;
         }
 
@@ -150,7 +156,7 @@ public class fpscontroller : MonoBehaviour
         }
         else
         {
-            fuckyou = 0;
+            canFloat = 0;
         }
 
         // Move the controller
@@ -173,7 +179,6 @@ public class fpscontroller : MonoBehaviour
             pl1.AddComponent<Rigidbody>();
             pl2.AddComponent<Rigidbody>();
             pl5.AddComponent<Rigidbody>();
-            rb = pl2.GetComponent<Rigidbody>();
             rb.AddForce(PlayerCamera.transform.forward * 10f);
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
@@ -193,7 +198,7 @@ public class fpscontroller : MonoBehaviour
     }
 
     //restart on death
-    public void restart()
+    private void restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -225,19 +230,19 @@ public class fpscontroller : MonoBehaviour
         else if (other.tag == "hitbox2")
         {
             //disable the previous turrets
-            FindObjectOfType<cutscenebridge>().turret1.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret2.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret3.gameObject.SetActive(false);
-
-            //enable new ones
-            FindObjectOfType<cutscenebridge>().turret4.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret5.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret6.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret7.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret8.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret9.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret10.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret11.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret1.gameObject.SetActive(false);
+            // FindObjectOfType<cutscenebridge>().turret2.gameObject.SetActive(false);
+            // FindObjectOfType<cutscenebridge>().turret3.gameObject.SetActive(false);
+            //
+            // //enable new ones
+            // FindObjectOfType<cutscenebridge>().turret4.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret5.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret6.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret7.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret8.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret9.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret10.gameObject.SetActive(true);
+            // FindObjectOfType<cutscenebridge>().turret11.gameObject.SetActive(true);
         }
         else if (other.tag == "hitbox3")
         {
@@ -317,7 +322,7 @@ public class fpscontroller : MonoBehaviour
     }
 
     //start turtorial
-    IEnumerator guntut()
+    private IEnumerator guntut()
     {
         tuto.SetTrigger("start");
         yield return new WaitForSeconds(6.9f);

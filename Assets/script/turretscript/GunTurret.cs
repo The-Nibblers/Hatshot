@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,6 @@ public class GunTurret : MonoBehaviour
     
     
     [Header("References")]
-    private GameObject player;
     [SerializeField] private GameObject hitBoxes;
     
     [SerializeField] private AudioSource idleAudio;
@@ -42,21 +42,25 @@ public class GunTurret : MonoBehaviour
     [SerializeField] private AudioSource gunRight;
 
 
-    [Header("Events")]
-    [SerializeField] private UnityEvent onSeePlayer;
-    [SerializeField] private UnityEvent onLosePlayer;
+    //events
+    private UnityEvent onSeePlayer;
+    private UnityEvent onLosePlayer;
 
+    //misscelanious
     private bool seePlayer = false;
     private bool isDestroyed = false;
     private bool isLeftBarrel = false;
     private bool isShooting = false;
     private fpscontroller fpscontroller;
+    private GameObject player;
 
 
     private void Awake()
     {
         fpscontroller = FindObjectOfType<fpscontroller>();
         player = GameObject.FindGameObjectWithTag("Player");
+        onSeePlayer.AddListener(PlayerSeen);
+        onLosePlayer.AddListener(PlayerLost);
     }
     private void SeePlayer()
     {
@@ -79,8 +83,7 @@ public class GunTurret : MonoBehaviour
             }
         }
     }
-
-    //assigned in unity editor for event
+    
     public void PlayerSeen()
     {
         if (!isDestroyed)
@@ -91,8 +94,7 @@ public class GunTurret : MonoBehaviour
             StartCoroutine(shoot());
         }
     }
-
-    //assigned in unity editor for event
+    
     public void PlayerLost()
     {
         if (!isDestroyed)
@@ -169,4 +171,10 @@ public class GunTurret : MonoBehaviour
         lightRight.gameObject.SetActive(false);
         this.enabled = false;
     }
+
+    // private void OnDestroy()
+    // {
+    //     onSeePlayer.RemoveAllListeners();
+    //     onLosePlayer.RemoveAllListeners();
+    // }
 }
