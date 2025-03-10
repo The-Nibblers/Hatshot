@@ -19,7 +19,6 @@ public class GunTurret : MonoBehaviour
     
     [Header("References")]
     [SerializeField] private GameObject hitBoxes;
-    
     [SerializeField] private AudioSource idleAudio;
     [SerializeField] private AudioSource detectionAudio;
     [SerializeField] private AudioSource explosionAudio;
@@ -29,16 +28,13 @@ public class GunTurret : MonoBehaviour
     
     [SerializeField] private ParticleSystem particlesLeft;
     [SerializeField] private Light lightLeft;
-    
     [SerializeField] private AudioSource gunLeft;
-    
     
     
     [Header("References right")]
 
     [SerializeField] private ParticleSystem particlesRight;
     [SerializeField] private Light lightRight;
-    
     [SerializeField] private AudioSource gunRight;
 
 
@@ -46,6 +42,7 @@ public class GunTurret : MonoBehaviour
     private UnityEvent onSeePlayer;
     private UnityEvent onLosePlayer;
 
+    
     //misscelanious
     private bool seePlayer = false;
     private bool isDestroyed = false;
@@ -53,18 +50,24 @@ public class GunTurret : MonoBehaviour
     private bool isShooting = false;
     private fpscontroller fpscontroller;
     private GameObject player;
+    private bool hasPlayedDetectionAudio = false; // New variable to track audio playback
 
 
-    private void Awake()
+    private void Start()
     {
         fpscontroller = FindObjectOfType<fpscontroller>();
         player = GameObject.FindGameObjectWithTag("Player");
+        
+        //initialize events
+        onSeePlayer = new UnityEvent();
+        onLosePlayer = new UnityEvent();
+        
         onSeePlayer.AddListener(PlayerSeen);
         onLosePlayer.AddListener(PlayerLost);
     }
+    
     private void SeePlayer()
     {
-        
         Vector3 sight = player.transform.position - transform.position;
         float dot = Vector3.Dot(sight, transform.right);
 
@@ -75,7 +78,7 @@ public class GunTurret : MonoBehaviour
             if (Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized,
                     out hit, maxSightLine) && hit.collider.CompareTag("Player"))
             {
-                onSeePlayer.Invoke();
+                    onSeePlayer.Invoke();
             }
             else if (seePlayer)
             {
@@ -88,7 +91,11 @@ public class GunTurret : MonoBehaviour
     {
         if (!isDestroyed)
         {
-            detectionAudio.Play();
+            if (!hasPlayedDetectionAudio)
+            {
+                detectionAudio.Play();
+                hasPlayedDetectionAudio = true;
+            }
             seePlayer = true;
             transform.LookAt(player.transform);
             StartCoroutine(shoot());
@@ -100,12 +107,12 @@ public class GunTurret : MonoBehaviour
         if (!isDestroyed)
         {
             seePlayer = false;
+            hasPlayedDetectionAudio = false;
             idleAudio.Play();   
         }
     } 
     
-    
-    void Update() 
+    private void Update() 
     {
         SeePlayer();
         
@@ -120,8 +127,6 @@ public class GunTurret : MonoBehaviour
             }
         }
     }
-
-    
     
     //shoot at the player, alternating gun barrels
      IEnumerator shoot()
@@ -170,11 +175,11 @@ public class GunTurret : MonoBehaviour
         lightLeft.gameObject.SetActive(false);
         lightRight.gameObject.SetActive(false);
         this.enabled = false;
-    }
+    } 
 
-    // private void OnDestroy()
-    // {
-    //     onSeePlayer.RemoveAllListeners();
-    //     onLosePlayer.RemoveAllListeners();
-    // }
+    private void OnDestroy()
+    {
+        onSeePlayer.RemoveAllListeners();
+        onLosePlayer.RemoveAllListeners();
+    }
 }

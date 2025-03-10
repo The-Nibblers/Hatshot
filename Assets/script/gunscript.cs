@@ -100,7 +100,7 @@ public class gunscript : MonoBehaviour
             if(hit.transform.tag == "enemy1")
             {
                 StartCoroutine(cameraShake.Shake(1f, .10f));
-                FindObjectOfType<turret1>().explode();
+                FindObjectOfType<GunTurret>().explode();
                 GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
                 explosion.GetComponent<ParticleSystem>().Play();
                 Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
