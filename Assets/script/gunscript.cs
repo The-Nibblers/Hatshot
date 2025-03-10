@@ -110,40 +110,6 @@ public class gunscript : MonoBehaviour
             }
             
             
-            
-            if(hit.transform.tag == "enemy1")
-            {
-                StartCoroutine(cameraShake.Shake(1f, .10f));
-                hit.transform.GetComponentInChildren<GunTurret>()?.Explode();
-                GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
-                explosion.GetComponent<ParticleSystem>().Play();
-                Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
-                hit.transform.gameObject.AddComponent<Rigidbody>();
-                rb = hit.transform.gameObject.GetComponent<Rigidbody>();
-                rb.AddForce(fpsCam.transform.forward * 1000f);
-            }
-            else if (hit.transform.tag == "enemy2")
-            {
-                StartCoroutine(cameraShake.Shake(1f, .10f));
-                hit.transform.GetComponentInChildren<GunTurret>()?.Explode();
-                GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
-                explosion.GetComponent<ParticleSystem>().Play();
-                Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
-                hit.transform.gameObject.AddComponent<Rigidbody>();
-                rb = hit.transform.gameObject.GetComponent<Rigidbody>();
-                rb.AddForce(fpsCam.transform.forward * 1000f);
-            }
-            else if (hit.transform.tag == "enemy3")
-            {
-                StartCoroutine(cameraShake.Shake(1f, .10f));
-                FindObjectOfType<turret3>().explode();
-                GameObject explosion = Instantiate(exploder, hit.transform.position + new Vector3(0.0f, 2f, 0.0f), hit.transform.rotation);
-                explosion.GetComponent<ParticleSystem>().Play();
-                Destroy(explosion, explosion.GetComponent<ParticleSystem>().main.duration);
-                hit.transform.gameObject.AddComponent<Rigidbody>();
-                rb = hit.transform.gameObject.GetComponent<Rigidbody>();
-                rb.AddForce(fpsCam.transform.forward * 1000f);
-            }
             else if (hit.transform.tag == "enemy4")
             {
                 StartCoroutine(cameraShake.Shake(1f, .10f));

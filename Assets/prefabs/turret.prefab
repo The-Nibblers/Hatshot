@@ -5112,8 +5112,8 @@ GameObject:
   - component: {fileID: 1428775054727918015}
   - component: {fileID: 1428775054727918012}
   - component: {fileID: 1428775054727918013}
-  - component: {fileID: 1428775054727917986}
   - component: {fileID: 1428775054727917987}
+  - component: {fileID: 1113868214753519295}
   m_Layer: 0
   m_Name: turret
   m_TagString: Untagged
@@ -5201,30 +5201,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1428775054727917986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1428775054727917985}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 421d145bdf64343438d243396b5b423c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  hitbox: {fileID: 1428775054898395613}
-  left: {fileID: 1428775054224741073}
-  leftl: {fileID: 1428775055784596880}
-  right: {fileID: 1428775055864448353}
-  rightl: {fileID: 1428775056151421394}
-  gunLeft: {fileID: 1428775055147130165}
-  gunRight: {fileID: 1428775054686264036}
-  gay: {fileID: 1428775054727917987}
-  detec: {fileID: 1428775055888565798}
-  boom: {fileID: 1428775055511136068}
-  ob3: {fileID: 1428775054727917985}
 --- !u!82 &1428775054727917987
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5321,6 +5297,32 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1113868214753519295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428775054727917985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4bd6ff2df996a9448a5dd58db8924f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 3
+  maxTurn: 90
+  lineOfSight: 3.3
+  maxSightLine: 100
+  hitBoxes: {fileID: 1428775054898395613}
+  idleAudio: {fileID: 1428775054727917987}
+  detectionAudio: {fileID: 1428775055888565798}
+  explosionAudio: {fileID: 1428775055511136068}
+  particlesLeft: {fileID: 1428775054224741073}
+  lightLeft: {fileID: 1428775055784596880}
+  gunLeft: {fileID: 1428775055147130165}
+  particlesRight: {fileID: 1428775055864448353}
+  lightRight: {fileID: 1428775056151421394}
+  gunRight: {fileID: 1428775054686264036}
 --- !u!1 &1428775054898395613
 GameObject:
   m_ObjectHideFlags: 0
@@ -5917,7 +5919,7 @@ Transform:
   m_Children:
   - {fileID: 1428775054898395607}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &1428775055511136068
 AudioSource:
