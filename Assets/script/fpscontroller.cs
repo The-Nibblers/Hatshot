@@ -10,9 +10,6 @@ using UnityEngine.Serialization;
 
 public class fpscontroller : MonoBehaviour
 {
-
-    private Rigidbody rb;
-    private Camera PlayerCamera;
     
     [Header("Player Variables")]
     [SerializeField] private float walkingSpeed = 11.5f;
@@ -20,10 +17,14 @@ public class fpscontroller : MonoBehaviour
     [SerializeField] private float gravity = 15.0f;
     [SerializeField] private float lookSpeed = 2.0f;
     [SerializeField] private float lookXLimit = 90.0f;
+    [SerializeField] private float doubleJumpSpeed = 120.0f;
+    [SerializeField] private float delay = 0.5f;
+    [SerializeField] private float coolDownPeriodInSeconds = 0.15f;
     [SerializeField] private float dashTime;
     [SerializeField] private float dashSpeed;
+    public float health = 100;
 
-    
+    [Header("references")]
     // turtorial text
     [SerializeField] private Animator tuto;
 
@@ -39,10 +40,6 @@ public class fpscontroller : MonoBehaviour
     [SerializeField] private GameObject crosshair;
     [SerializeField] private GameObject deahtText;
     [SerializeField] private GameObject deathButton;
- 
-    //turret damage and health
-    public float health = 100;
-    private float thehealth;
 
     //die rigidbody
     [SerializeField] private GameObject pl1;
@@ -50,14 +47,7 @@ public class fpscontroller : MonoBehaviour
     [SerializeField] private GameObject pl5;
 
     //dash
-  
     [SerializeField] private AudioSource dashsfx;
-    private int canDash = 1;
-    [SerializeField] private float coolDownPeriodInSeconds = 0.15f;
-
-    // float
-    private int canFloat = 1;
-    [SerializeField] private float doubleJumpSpeed = 120.0f;
 
     //hat wearing
     [SerializeField] private GameObject doubleJumpHat;
@@ -65,12 +55,17 @@ public class fpscontroller : MonoBehaviour
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
-    
-    [HideInInspector] public bool canMove = true;
 
-    [SerializeField] private float delay = 0.5f;
-
+    //misselanious
     private cutscenebridge turretholder;
+    private Rigidbody rb;
+    private Camera PlayerCamera;
+    
+    private float thehealth;
+    
+    private int canDash = 1;
+    private int canFloat = 1;
+    [HideInInspector] public bool canMove = true;
 
 
     private void Start()
@@ -79,25 +74,20 @@ public class fpscontroller : MonoBehaviour
         rb = pl2.GetComponent<Rigidbody>();
         PlayerCamera = Camera.main;
         
-        
-        //hide cursor
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         //start turtorial
         StartCoroutine(guntut());
-
-
+        
         //ui
         deahtText.gameObject.SetActive(false);
         deathButton.gameObject.SetActive(false);
 
         //get charachter controller
         characterController = GetComponent<CharacterController>();
-
-        // Lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
+        
         //enable normal hat
         doubleJumpHat.gameObject.SetActive(true);
     }
