@@ -70,9 +70,12 @@ public class fpscontroller : MonoBehaviour
 
     [SerializeField] private float delay = 0.5f;
 
+    private cutscenebridge turretholder;
+
 
     private void Start()
     {
+        turretholder = FindObjectOfType<cutscenebridge>();
         rb = pl2.GetComponent<Rigidbody>();
         PlayerCamera = Camera.main;
         
@@ -225,101 +228,61 @@ public class fpscontroller : MonoBehaviour
             health = 100;
             Destroy(other.gameObject);
         }
+        
+        //turret en and disabling
         else if (other.tag == "hitbox1")
         {
-            //enable new turrets
-            FindObjectOfType<cutscenebridge>().turret1.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret2.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret3.gameObject.SetActive(true);
+            // Enable new turrets
+            for (int i = 0; i < 3; i++)
+                turretholder.turretArray[i].gameObject.SetActive(true);
         }
         else if (other.tag == "hitbox2")
         {
-            //disable the previous turrets
-            // FindObjectOfType<cutscenebridge>().turret1.gameObject.SetActive(false);
-            // FindObjectOfType<cutscenebridge>().turret2.gameObject.SetActive(false);
-            // FindObjectOfType<cutscenebridge>().turret3.gameObject.SetActive(false);
-            //
-            // //enable new ones
-            // FindObjectOfType<cutscenebridge>().turret4.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret5.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret6.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret7.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret8.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret9.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret10.gameObject.SetActive(true);
-            // FindObjectOfType<cutscenebridge>().turret11.gameObject.SetActive(true);
+            // Disable previous turrets
+            for (int i = 0; i < 3; i++)
+                turretholder.turretArray[i].gameObject.SetActive(false);
+
+            // Enable new turrets
+            for (int i = 3; i <= 10; i++)
+                turretholder.turretArray[i].gameObject.SetActive(true);
         }
         else if (other.tag == "hitbox3")
         {
-            //disable the previous
-            FindObjectOfType<cutscenebridge>().turret4.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret5.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret6.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret7.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret8.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret9.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret10.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret11.gameObject.SetActive(false);
+            // Disable previous turrets
+            for (int i = 3; i <= 10; i++)
+                turretholder.turretArray[i].gameObject.SetActive(false);
 
-            //enable the next
-            FindObjectOfType<cutscenebridge>().turret12.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret13.gameObject.SetActive(true);
+            // Enable new turrets
+            for (int i = 11; i <= 12; i++)
+                turretholder.turretArray[i].gameObject.SetActive(true);
         }
         else if (other.tag == "hitbox4")
         {
-            //disable the previous
-            FindObjectOfType<cutscenebridge>().turret12.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret13.gameObject.SetActive(false);
+            // Disable previous turrets
+            for (int i = 11; i <= 12; i++)
+                turretholder.turretArray[i].gameObject.SetActive(false);
 
-            //enable the next
-            FindObjectOfType<cutscenebridge>().turret14.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret15.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret16.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret18.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret19.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret20.gameObject.SetActive(true);
-
-            FindObjectOfType<cutscenebridge>().turret21.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret22.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret23.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret24.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret25.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret26.gameObject.SetActive(true);
+            // Enable new turrets
+            int[] indices = { 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+            foreach (int index in indices)
+                turretholder.turretArray[index].gameObject.SetActive(true);
         }
         else if (other.tag == "hitbox5")
         {
-            //disable the previous
-            FindObjectOfType<cutscenebridge>().turret14.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret15.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret16.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret18.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret19.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret20.gameObject.SetActive(false);
+            // Disable previous turrets
+            int[] indices = { 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+            foreach (int index in indices)
+                turretholder.turretArray[index].gameObject.SetActive(false);
 
-            FindObjectOfType<cutscenebridge>().turret21.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret22.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret23.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret24.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret25.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret26.gameObject.SetActive(false);
-
-            //enable the next
-            FindObjectOfType<cutscenebridge>().turret27.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret28.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret29.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret30.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret31.gameObject.SetActive(true);
-            FindObjectOfType<cutscenebridge>().turret32.gameObject.SetActive(true);
+            // Enable new turrets
+            for (int i = 27; i <= 31; i++)
+                turretholder.turretArray[i].gameObject.SetActive(true);
         }
         else if (other.tag == "endbox")
         {
-            //enable the next
-            FindObjectOfType<cutscenebridge>().turret27.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret28.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret29.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret30.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret31.gameObject.SetActive(false);
-            FindObjectOfType<cutscenebridge>().turret32.gameObject.SetActive(false);
+            // Disable previous turrets
+            for (int i = 27; i <= 31; i++)
+                turretholder.turretArray[i].gameObject.SetActive(false);
 
             StartCoroutine(FadeAudio.FadeOut(mucis_loud, 2f));
             heartbeat.Play();

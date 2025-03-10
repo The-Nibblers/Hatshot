@@ -7,110 +7,51 @@ using UnityEngine.UI;
 public class cutscenebridge : MonoBehaviour
 {
     //camera's
-    public Camera fpsCam;
-    public Camera cutsceneCam;
-
-    //screenshake
-    public screenShake cameraShake;
+     private Camera fpsCam;
+    
+     [SerializeField] private Camera cutsceneCam;
 
     //explosions
-    public ParticleSystem explode1;
-    public ParticleSystem explode2;
-    public ParticleSystem explode3;
-    public ParticleSystem explode4;
+    [SerializeField] public ParticleSystem explode1;
+    [SerializeField] public ParticleSystem explode2;
+    [SerializeField] public ParticleSystem explode3;
+    [SerializeField] public ParticleSystem explode4;
 
     //sounds
-    public AudioSource boom1;
-    public AudioSource boom2;
-    public AudioSource boom3;
+    [SerializeField] public AudioSource boom1;
+    [SerializeField] public AudioSource boom2;
+    [SerializeField] public AudioSource boom3;
 
     //camerashake
-    public screenShake Shake;
+    [SerializeField] public screenShake Shake;
 
     //animator
-    public Animator animator;
-    public Animator worldState;
+    [SerializeField] public Animator animator;
+    [SerializeField] public Animator worldState;
 
     //trigger
-    public GameObject trigger;
+    [SerializeField] public GameObject trigger;
 
     //UI
-    public GameObject crosshair;
-    public GameObject helth1;
-    public GameObject helth2;
-    public GameObject helth3;
+    [SerializeField] public GameObject crosshair;
+    [SerializeField] public GameObject helth1;
+    [SerializeField] public GameObject helth2;
+    [SerializeField] public GameObject helth3;
 
-    public GameObject player;
+    [SerializeField] public GameObject player;
 
     //turrets
-    public GameObject turret1;
-    public GameObject turret2;
-    public GameObject turret3;
-    public GameObject turret4;
-    public GameObject turret5;
-    public GameObject turret6;
-    public GameObject turret7;
-    public GameObject turret8;
-    public GameObject turret9;
-    public GameObject turret10;
-    public GameObject turret11;
-    public GameObject turret12;
-    public GameObject turret13;
-    public GameObject turret14;
-    public GameObject turret15;
-    public GameObject turret16;
-    public GameObject turret17;
-    public GameObject turret18;
-    public GameObject turret19;
-    public GameObject turret20;
-    public GameObject turret21;
-    public GameObject turret22;
-    public GameObject turret23;
-    public GameObject turret24;
-    public GameObject turret25;
-    public GameObject turret26;
-    public GameObject turret27;
-    public GameObject turret28;
-    public GameObject turret29;
-    public GameObject turret30;
-    public GameObject turret31;
-    public GameObject turret32;
+    public GameObject[] turretArray; 
 
     public void Awake()
     {
-        cutsceneCam.gameObject.SetActive(false);
-        turret1.gameObject.SetActive(false);
-        turret2.gameObject.SetActive(false);
-        turret3.gameObject.SetActive(false);
+        fpsCam = Camera.main;
         
-        turret4.gameObject.SetActive(false);
-        turret5.gameObject.SetActive(false);
-        turret6.gameObject.SetActive(false);
-        turret7.gameObject.SetActive(false);
-        turret8.gameObject.SetActive(false);
-        turret9.gameObject.SetActive(false);
-        turret10.gameObject.SetActive(false);
-        turret11.gameObject.SetActive(false);
-        turret12.gameObject.SetActive(false);
-        turret13.gameObject.SetActive(false);
-        turret14.gameObject.SetActive(false);
-        turret15.gameObject.SetActive(false);
-        turret16.gameObject.SetActive(false);
-        turret18.gameObject.SetActive(false);
-        turret19.gameObject.SetActive(false);
-        turret20.gameObject.SetActive(false);
-        turret21.gameObject.SetActive(false);
-        turret22.gameObject.SetActive(false);
-        turret23.gameObject.SetActive(false);
-        turret24.gameObject.SetActive(false);
-        turret25.gameObject.SetActive(false);
-        turret26.gameObject.SetActive(false);
-        turret27.gameObject.SetActive(false);
-        turret28.gameObject.SetActive(false);
-        turret29.gameObject.SetActive(false);
-        turret30.gameObject.SetActive(false);
-        turret31.gameObject.SetActive(false);
-        turret32.gameObject.SetActive(false);
+        cutsceneCam.gameObject.SetActive(false);
+        foreach (GameObject Turret in turretArray)
+        {
+            Turret.gameObject.SetActive(false);
+        }
     }
 
     //start cutscene
@@ -124,7 +65,7 @@ public class cutscenebridge : MonoBehaviour
 
     }
 
-    IEnumerator cutsceneButNumerator()
+    private IEnumerator cutsceneButNumerator()
     {
         hideUI();
         animator.SetTrigger("open");

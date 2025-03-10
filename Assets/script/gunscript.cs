@@ -186,4 +186,10 @@ public class gunscript : MonoBehaviour
         shortgun.SetTrigger("idler");
         reloading = false;
     }
+
+    private void OnDestroy()
+    {
+        OnShoot.RemoveAllListeners();
+        OnReload.RemoveAllListeners();
+    }
 }
