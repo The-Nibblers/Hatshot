@@ -203,6 +203,11 @@ public class fpscontroller : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public float returnHealth()
+    {
+        return health;
+    }
+
     //collision system
     private void OnTriggerEnter(Collider other)
     {

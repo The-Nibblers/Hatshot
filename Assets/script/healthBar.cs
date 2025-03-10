@@ -8,22 +8,25 @@ public class healthBar : MonoBehaviour
 {
     private const float MAX_HEALTH = 100f;
 
-    public Text healthtext;
-
-    public float currentHealth;
+    [SerializeField] private Text healthtext;
+    
+    private float currentHealth;
 
     private Image healthbar;
+
+    private fpscontroller playerscript;
     // Start is called before the first frame update
     void Start()
     {
         healthbar = GetComponent<Image>();
+        playerscript = FindObjectOfType<fpscontroller>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        currentHealth = playerscript.returnHealth();
         healthtext.text = Convert.ToString(currentHealth);
-        currentHealth = FindObjectOfType<fpscontroller>().health;
         if (currentHealth <= 0)
         {
             currentHealth = 0;
