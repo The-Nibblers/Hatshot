@@ -62,11 +62,11 @@ public class GunTurret : MonoBehaviour
         onSeePlayer = new UnityEvent();
         onLosePlayer = new UnityEvent();
         
-        onSeePlayer.AddListener(PlayerSeen);
+        onSeePlayer.AddListener(PlayerDetected);
         onLosePlayer.AddListener(PlayerLost);
     }
     
-    private void SeePlayer()
+    private void DetectPlayer()
     {
         Vector3 sight = player.transform.position - transform.position;
         float dot = Vector3.Dot(sight, transform.right);
@@ -87,7 +87,7 @@ public class GunTurret : MonoBehaviour
         }
     }
     
-    public void PlayerSeen()
+    public void PlayerDetected()
     {
         if (!isDestroyed)
         {
@@ -98,7 +98,7 @@ public class GunTurret : MonoBehaviour
             }
             seePlayer = true;
             transform.LookAt(player.transform);
-            StartCoroutine(shoot());
+            StartCoroutine(Shoot());
         }
     }
     
@@ -114,66 +114,80 @@ public class GunTurret : MonoBehaviour
     
     private void Update() 
     {
-        SeePlayer();
+        DetectPlayer();
         
         //idle rotation of turret
-        if (!seePlayer && !isDestroyed)
+        if (seePlayer && isDestroyed)
+            return;
+            
+        transform.Rotate(0, turnSpeed, 0);
+        
+        if ((transform.rotation.eulerAngles.y > maxTurn && transform.rotation.eulerAngles.y < 180) ||
+            (transform.rotation.eulerAngles.y < 360 - maxTurn && transform.rotation.eulerAngles.y > 180))
         {
-            transform.Rotate(0, turnSpeed, 0);
-            if ((transform.rotation.eulerAngles.y > maxTurn && transform.rotation.eulerAngles.y < 180) ||
-                (transform.rotation.eulerAngles.y < 360 - maxTurn && transform.rotation.eulerAngles.y > 180))
-            {
-                turnSpeed *= -1;
-            }
+            turnSpeed *= -1;
         }
     }
     
     //shoot at the player, alternating gun barrels
-     IEnumerator shoot()
+     IEnumerator Shoot()
      {
          yield return new WaitForSeconds(2f);
-         
-         if (seePlayer && !isShooting && !isDestroyed)
-         {
-             isShooting = true;
-             fpscontroller.damaging();
-             
-             if (isLeftBarrel)
-             {
-                 
-                 gunLeft.Play();
-                 particlesLeft.Play();
-                 lightLeft.gameObject.SetActive(true);
-                 yield return new WaitForSeconds(0.06f);
-                 particlesLeft.Stop();
-                 lightLeft.gameObject.SetActive(false);
-                 isLeftBarrel = false;
-             }
-             if (!isLeftBarrel)
-             {
-                 gunRight.Play();
-                 particlesRight.Play();
-                 lightRight.gameObject.SetActive(true);
-                 yield return new WaitForSeconds(0.06f);
-                 particlesRight.Stop();
-                 lightRight.gameObject.SetActive(false);
-                 isLeftBarrel = true;
-             }
 
-             isShooting = false;
+         if (!seePlayer && isShooting && isDestroyed)
+             yield break;
+         
+         isShooting = true;
+         fpscontroller.damaging();
              
+         if (isLeftBarrel)
+         {
+                 
+             gunLeft.Play();
+             particlesLeft.Play();
+             
+             lightLeft.gameObject.SetActive(true);
+             
+             yield return new WaitForSeconds(0.06f);
+             
+             particlesLeft.Stop();
+             lightLeft.gameObject.SetActive(false);
+             
+             isLeftBarrel = false;
          }
+         if (!isLeftBarrel)
+         {
+             gunRight.Play();
+             particlesRight.Play();
+             
+             lightRight.gameObject.SetActive(true);
+             
+             yield return new WaitForSeconds(0.06f);
+             
+             particlesRight.Stop();
+             lightRight.gameObject.SetActive(false);
+             
+             isLeftBarrel = true;
+         }
+
+         isShooting = false;
+             
+         
     }
 
      //referenced in other script, death logic
-   public void explode()
+   public void Explode()
     {
         isDestroyed = true;
         seePlayer = false;
+        
         explosionAudio.Play();
+        
         hitBoxes.tag = "Untagged";
+        
         lightLeft.gameObject.SetActive(false);
         lightRight.gameObject.SetActive(false);
+        
         this.enabled = false;
     } 
 
