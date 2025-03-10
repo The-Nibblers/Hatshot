@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - envoirenment
+  - Detect
+  - door1
+  - rockethat
+  - rockethatparticle
+  - door2
+  - fall
+  - UI_hat3
+  - start_metal
+  - start_normal
+  - start_loud
+  - music stop
+  - door3
+  - UI_hat1
+  - UI_hat2
+  - glassdoor
+  - shotgun
+  - key1
+  - doublejumphat
+  - key2
+  - key3
+  - metalnoise
+  - cutscene
+  - enemy1
+  - enemy2
+  - hitbox4
+  - hitbox2
+  - hitbox3
+  - enemy
+  - enemy13
+  - heal
+  - enemy19
+  - enemy12
+  - enemy14
+  - enemy7
+  - enemy6
+  - enemy9
+  - enemy21
+  - enemy10
+  - enemy24
+  - enemy22
+  - enemy3
+  - enemy15
+  - enemy26
+  - enemy4
+  - enemy18
+  - enemy20
+  - enemy11
+  - enemy25
+  - enemy16
+  - enemy8
+  - enemy23
+  - enemy5
+  - enemy27
+  - enemy28
+  - enemy29
+  - enemy31
+  - enemy32
+  - enemy30
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - hat
+  - Water
+  - UI
+  - teleport
+  - weapon
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
