@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShieldFunc : MonoBehaviour
 {
@@ -11,8 +13,12 @@ public class ShieldFunc : MonoBehaviour
     
     [Header("References")]
     [SerializeField] private GameObject shieldGameObject;
+    [SerializeField] private Animator shieldAnimator;
     
     // events
+    private UnityEvent defending;
+    private UnityEvent shieldTakeDamage;
+    private UnityEvent ShieldBreaking;
     
     
     //miscellaneous
@@ -22,12 +28,23 @@ public class ShieldFunc : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
+        
+        defending = new UnityEvent();
+        shieldTakeDamage = new UnityEvent();
+        ShieldBreaking = new UnityEvent();
+        
+        defending.AddListener(Defend);
+        shieldTakeDamage.AddListener(DamageShield);
+        ShieldBreaking.AddListener(ShieldBreak);
     }
 
     
     void Update()
     {
-        
+        if (Input.getKeyDown(KeyCode.Mouse2))
+        {
+            
+        }
     }
 
     private void Defend()
@@ -43,5 +60,12 @@ public class ShieldFunc : MonoBehaviour
     private void ShieldBreak()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+        defending.RemoveAllListeners();
+        shieldTakeDamage.RemoveAllListeners();
+        ShieldBreaking.RemoveAllListeners();
     }
 }
