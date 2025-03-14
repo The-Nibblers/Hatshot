@@ -61,7 +61,7 @@ public class gunscript : MonoBehaviour
     {
 
             //shoot
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 OnShoot.Invoke();
             }

@@ -7,13 +7,15 @@ using UnityEngine.Events;
 public class ShieldFunc : MonoBehaviour
 {
     [Header("Shield Variables")]
-    [SerializeField] private float shieldTime;
     [SerializeField] private int shieldMaxHealth;
+    [SerializeField] private float maxCoolDownTime;
+    private float shieldTime;
     private int shieldHealth;
     
     [Header("References")]
     [SerializeField] private GameObject shieldGameObject;
     [SerializeField] private Animator shieldAnimator;
+    [SerializeField] private fpscontroller playerControllerScript;
     
     // events
     private UnityEvent defending;
@@ -41,14 +43,28 @@ public class ShieldFunc : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse2))
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            
+            defending.Invoke();
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            ShieldBreaking.Invoke();
         }
     }
 
     private void Defend()
     {
+        if (isShieldActive)
+            return;
+
+        if (Time.time > shieldTime)
+        {
+            shieldHealth = shieldMaxHealth;
+            isShieldActive = true; 
+            Debug.Log("Shield Active");   
+        }
+        
         
     }
 
@@ -59,7 +75,12 @@ public class ShieldFunc : MonoBehaviour
      
     private void ShieldBreak()
     {
+        if (!isShieldActive)
+            return;
         
+        Debug.Log("Shield Breaking");
+        isShieldActive = false;
+        shieldTime = Time.time + maxCoolDownTime;
     }
 
     private void OnDestroy()
