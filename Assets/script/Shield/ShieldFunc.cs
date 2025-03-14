@@ -41,7 +41,7 @@ public class ShieldFunc : MonoBehaviour
     
     void Update()
     {
-        if (Input.getKeyDown(KeyCode.Mouse2))
+        if (Input.GetKey(KeyCode.Mouse2))
         {
             
         }
