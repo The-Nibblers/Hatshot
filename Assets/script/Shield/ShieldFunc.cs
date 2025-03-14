@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,43 +9,37 @@ public class ShieldFunc : MonoBehaviour
     [SerializeField] private float maxCoolDownTime;
     private float shieldTime;
     private int shieldHealth;
-    
+
     [Header("References")]
     [SerializeField] private GameObject shieldGameObject;
     [SerializeField] private Animator shieldAnimator;
     [SerializeField] private fpscontroller playerControllerScript;
-    
-    // events
+
     private UnityEvent defending;
-    private UnityEvent shieldTakeDamage;
+    [HideInInspector] public UnityEvent shieldTakeDamage;
     private UnityEvent ShieldBreaking;
-    
-    
-    //miscellaneous
-    private bool isShieldActive;
-    private Camera mainCam;
+
+    public bool isDefending = false;
+    private bool isShieldActive = false;
     
     void Start()
     {
-        mainCam = Camera.main;
-        
         defending = new UnityEvent();
         shieldTakeDamage = new UnityEvent();
         ShieldBreaking = new UnityEvent();
-        
+
         defending.AddListener(Defend);
         shieldTakeDamage.AddListener(DamageShield);
         ShieldBreaking.AddListener(ShieldBreak);
     }
 
-    
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             defending.Invoke();
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        if (Input.GetKeyUp(KeyCode.Mouse1))
         {
             ShieldBreaking.Invoke();
         }
@@ -55,32 +47,41 @@ public class ShieldFunc : MonoBehaviour
 
     private void Defend()
     {
-        if (isShieldActive)
-            return;
+        if (isDefending || isShieldActive) return;
 
-        if (Time.time > shieldTime)
-        {
-            shieldHealth = shieldMaxHealth;
-            isShieldActive = true; 
-            Debug.Log("Shield Active");   
-        }
-        
-        
+        shieldAnimator.SetTrigger("Defend");
+        shieldHealth = shieldMaxHealth;
+        isDefending = true;
     }
 
     private void DamageShield()
     {
-        
+        if (!isDefending) return;
+
+        shieldHealth--;
+        if (shieldHealth <= 0)
+        {
+            ShieldBreaking.Invoke();
+        }
     }
-     
+
     private void ShieldBreak()
     {
-        if (!isShieldActive)
-            return;
-        
-        Debug.Log("Shield Breaking");
-        isShieldActive = false;
+        if (!isDefending) return;
+
+        shieldAnimator.SetTrigger("Break");
+
+        isDefending = false;
+        isShieldActive = true;
+
+        StartCoroutine(ResetShieldCooldown());
+    }
+
+    private IEnumerator ResetShieldCooldown()
+    {
+        yield return new WaitForSeconds(0.1f);
         shieldTime = Time.time + maxCoolDownTime;
+        isShieldActive = false;
     }
 
     private void OnDestroy()

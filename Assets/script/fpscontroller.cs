@@ -52,6 +52,9 @@ public class fpscontroller : MonoBehaviour
 
     //hat wearing
     [SerializeField] private GameObject doubleJumpHat;
+    
+    //shield script
+    [SerializeField] private ShieldFunc shield;
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
@@ -187,8 +190,15 @@ public class fpscontroller : MonoBehaviour
     //health and damage system
     public void damaging()
     {
-        thehealth = health - 2f;
-        health = thehealth;
+        if (shield.isDefending)
+        {
+            shield.shieldTakeDamage.Invoke();
+        }
+        else
+        {
+            thehealth = health - 2f;
+            health = thehealth;
+        }
     }
 
     //restart on death
