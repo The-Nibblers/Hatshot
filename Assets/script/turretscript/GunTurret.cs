@@ -66,8 +66,11 @@ public class GunTurret : MonoBehaviour
     private void Update() 
     {
         DetectPlayer();
-        
-        //idle rotation of turret
+        TurretIdleRotation();
+    }
+
+    private void TurretIdleRotation()
+    {
         if (seePlayer && isDestroyed)
             return;
             
