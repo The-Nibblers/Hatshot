@@ -11,7 +11,6 @@ public class ShieldFunc : MonoBehaviour
     [SerializeField] private int shieldMaxHealth;
     [SerializeField] private float maxCoolDownTime;
     [SerializeField] private int Damage;
-    private float shieldTime;
     private int shieldHealth;
 
     [Header("References")]
@@ -32,18 +31,29 @@ public class ShieldFunc : MonoBehaviour
 
     private AudioSource shieldAudioSource;
     
+    //colors
+    private Color brokenShieldColor = Color.red;
+    private Color activeShieldColor = Color.white;
+    private Color inactiveShieldColor = Color.gray;
+    
+    
+    //delegates
     private UnityAction defending;
     public UnityAction shieldTakeDamage;
     private UnityAction ShieldBreaking;
 
+    //bools
     [HideInInspector] public bool isDefending;
     private bool IsRessetingCooldown;
+    private bool TookDamage;
     
     void Start()
     {
         defending+=Defend;
         ShieldBreaking+=TryShieldBreak;
         shieldTakeDamage+=TryDamageShield;
+        
+        SetShieldUiColor(inactiveShieldColor);
     }
 
     void Update()
@@ -60,10 +70,11 @@ public class ShieldFunc : MonoBehaviour
 
     private void Defend()
     {
-        if (isDefending) return;
+        if (isDefending || IsRessetingCooldown) return;
 
         shieldAnimator.SetTrigger("Defend");
         shieldHealth = shieldMaxHealth;
+        SetShieldUiColor(activeShieldColor);
         UpdateShieldHealthUI();
         isDefending = true;
     }
@@ -77,9 +88,9 @@ public class ShieldFunc : MonoBehaviour
 
     private void DamageShield(int thisDamage)
     {
-        shieldHealth -= thisDamage;
-        
+        TookDamage = true;
         UpdateShieldHealthUI();
+        shieldHealth -= thisDamage;
         shieldImpactSounds[Random.Range(0,shieldImpactSounds.Length)].Play();
         shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
         StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
@@ -102,18 +113,32 @@ public class ShieldFunc : MonoBehaviour
 
         isDefending = false;
 
-        StartCoroutine(ResetShieldCooldown());
+        SetShieldUiColor(inactiveShieldColor);
+        
+        if (TookDamage)
+        {
+            StartCoroutine(ResetShieldCooldown());   
+        }
     }
 
     private void UpdateShieldHealthUI()
     {
-        shieldBar.fillAmount = shieldHealth / maxCoolDownTime;
+        shieldBar.fillAmount = (float)shieldHealth / shieldMaxHealth;
+    }
+
+    private void SetShieldUiColor(Color thisColor)
+    {
+        shieldBorder.color = thisColor;
+        thisColor.a = 0.39215686274f;
+        shieldBar.color = thisColor;
+        
     }
 
     private IEnumerator ResetShieldCooldown()
     {
         IsRessetingCooldown = true;
-    
+
+        SetShieldUiColor(brokenShieldColor);
         float elapsedTime = 0f;
         float regenDuration = maxCoolDownTime;
         float shieldStart = shieldHealth;
@@ -131,8 +156,8 @@ public class ShieldFunc : MonoBehaviour
 
         shieldHealth = shieldMaxHealth;
         UpdateShieldHealthUI();
-
-        shieldTime = Time.time + maxCoolDownTime;
+        SetShieldUiColor(inactiveShieldColor);
+        TookDamage = false;
         IsRessetingCooldown = false;
     }
 }
