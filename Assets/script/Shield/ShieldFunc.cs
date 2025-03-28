@@ -36,8 +36,8 @@ public class ShieldFunc : MonoBehaviour
     public UnityAction shieldTakeDamage;
     private UnityAction ShieldBreaking;
 
-    [HideInInspector] public bool isDefending = false;
-    private bool isShieldActive = false;
+    [HideInInspector] public bool isDefending;
+    private bool IsRessetingCooldown;
     
     void Start()
     {
@@ -60,7 +60,7 @@ public class ShieldFunc : MonoBehaviour
 
     private void Defend()
     {
-        if (isDefending || isShieldActive) return;
+        if (isDefending) return;
 
         shieldAnimator.SetTrigger("Defend");
         shieldHealth = shieldMaxHealth;
@@ -78,6 +78,7 @@ public class ShieldFunc : MonoBehaviour
     private void DamageShield(int thisDamage)
     {
         shieldHealth -= thisDamage;
+        
         UpdateShieldHealthUI();
         shieldImpactSounds[Random.Range(0,shieldImpactSounds.Length)].Play();
         shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
@@ -100,7 +101,6 @@ public class ShieldFunc : MonoBehaviour
         shieldAnimator.SetTrigger("Break");
 
         isDefending = false;
-        isShieldActive = true;
 
         StartCoroutine(ResetShieldCooldown());
     }
@@ -112,8 +112,27 @@ public class ShieldFunc : MonoBehaviour
 
     private IEnumerator ResetShieldCooldown()
     {
-        yield return new WaitForSeconds(0.1f);
+        IsRessetingCooldown = true;
+    
+        float elapsedTime = 0f;
+        float regenDuration = maxCoolDownTime;
+        float shieldStart = shieldHealth;
+        float shieldTarget = shieldMaxHealth;
+
+        while (elapsedTime < regenDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            shieldHealth = (int)Mathf.Lerp(shieldStart, shieldTarget, elapsedTime / regenDuration);
+        
+            UpdateShieldHealthUI();
+        
+            yield return null;
+        }
+
+        shieldHealth = shieldMaxHealth;
+        UpdateShieldHealthUI();
+
         shieldTime = Time.time + maxCoolDownTime;
-        isShieldActive = false;
+        IsRessetingCooldown = false;
     }
 }
