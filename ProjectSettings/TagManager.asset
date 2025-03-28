@@ -37,6 +37,7 @@ TagManager:
   - hitbox1
   - end
   - Enemy
+  - shield
   layers:
   - Default
   - TransparentFX
@@ -46,7 +47,7 @@ TagManager:
   - UI
   - teleport
   - weapon
-  - 
+  - Player
   - 
   - 
   - 

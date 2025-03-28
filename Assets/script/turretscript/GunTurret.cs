@@ -93,7 +93,7 @@ public class GunTurret : MonoBehaviour
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized,
-                    out hit, maxSightLine) && hit.collider.CompareTag("Player"))
+                    out hit, maxSightLine) && hit.collider.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
                     onSeePlayer.Invoke();
             }
