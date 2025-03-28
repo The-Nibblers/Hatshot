@@ -37,6 +37,7 @@ public class cutscenebridge : MonoBehaviour
     [SerializeField] public GameObject helth1;
     [SerializeField] public GameObject helth2;
     [SerializeField] public GameObject helth3;
+    [SerializeField] private GameObject Shield;
 
     [SerializeField] public GameObject player;
 
@@ -101,6 +102,7 @@ public class cutscenebridge : MonoBehaviour
         helth1.gameObject.SetActive(false);
         helth2.gameObject.SetActive(false);
         helth3.gameObject.SetActive(false);
+        Shield.gameObject.SetActive(false);
     }
 
     private void showUI()
