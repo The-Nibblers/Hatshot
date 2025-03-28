@@ -1,6 +1,8 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class ShieldFunc : MonoBehaviour
 {
@@ -15,7 +17,15 @@ public class ShieldFunc : MonoBehaviour
     [SerializeField] private GameObject shieldGameObject;
     [SerializeField] private Animator shieldAnimator;
     [SerializeField] private fpscontroller playerControllerScript;
+    [SerializeField] private AudioSource[] shieldImpactSounds;
 
+    [Header("Effects")] 
+    [SerializeField] private Vector3 minImpactCoordinates;
+    [SerializeField] private Vector3 maxImpactCoordinates;
+    [SerializeField] private screenShake cameraShake;
+
+    private AudioSource shieldAudioSource;
+    
     private UnityAction defending;
     public UnityAction shieldTakeDamage;
     private UnityAction ShieldBreaking;
@@ -25,7 +35,6 @@ public class ShieldFunc : MonoBehaviour
     
     void Start()
     {
-
         defending+=Defend;
         ShieldBreaking+=TryShieldBreak;
         shieldTakeDamage+=TryDamageShield;
@@ -62,12 +71,15 @@ public class ShieldFunc : MonoBehaviour
     private void DamageShield(int thisDamage)
     {
         shieldHealth -= thisDamage;
+        shieldImpactSounds[Random.Range(0,3)].Play();
+        StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
+        
         if (shieldHealth <= 0)
         {
             ShieldBreaking.Invoke();
         }
     }
-
+    
     private void TryShieldBreak()
     {
         if (!isDefending) return;
