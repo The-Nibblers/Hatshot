@@ -23,6 +23,7 @@ public class ShieldFunc : MonoBehaviour
     [SerializeField] private Vector3 minImpactCoordinates;
     [SerializeField] private Vector3 maxImpactCoordinates;
     [SerializeField] private screenShake cameraShake;
+    [SerializeField] private ParticleSystem[] shieldImpactParticles;
 
     private AudioSource shieldAudioSource;
     
@@ -71,7 +72,8 @@ public class ShieldFunc : MonoBehaviour
     private void DamageShield(int thisDamage)
     {
         shieldHealth -= thisDamage;
-        shieldImpactSounds[Random.Range(0,3)].Play();
+        shieldImpactSounds[Random.Range(0,shieldImpactSounds.Length)].Play();
+        shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
         StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
         
         if (shieldHealth <= 0)
