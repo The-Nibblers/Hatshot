@@ -106,27 +106,26 @@ public class GunTurret : MonoBehaviour
     
     public void PlayerDetected()
     {
-        if (!isDestroyed)
-        {
+        if (isDestroyed) return;
+        
             if (!hasPlayedDetectionAudio)
             {
                 detectionAudio.Play();
                 hasPlayedDetectionAudio = true;
             }
+            
             seePlayer = true;
             transform.LookAt(player.transform);
             StartCoroutine(Shoot());
-        }
     }
     
     public void PlayerLost()
     {
-        if (!isDestroyed)
-        {
-            seePlayer = false;
-            hasPlayedDetectionAudio = false;
-            idleAudio.Play();   
-        }
+        if (!isDestroyed) return;
+        
+        seePlayer = false;
+        hasPlayedDetectionAudio = false;
+        idleAudio.Play();   
     } 
     
     //shoot at the player, alternating gun barrels
@@ -134,9 +133,7 @@ public class GunTurret : MonoBehaviour
      {
          yield return new WaitForSeconds(2f);
 
-         if (seePlayer && !isShooting && !isDestroyed)
-         {
-
+         if (!seePlayer && isShooting && isDestroyed) yield break;
 
              isShooting = true;
              fpscontroller.damaging();
@@ -173,8 +170,6 @@ public class GunTurret : MonoBehaviour
              }
 
              isShooting = false;
-
-         }
      }
 
      //referenced in other script, death logic
