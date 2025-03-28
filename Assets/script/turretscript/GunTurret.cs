@@ -108,20 +108,24 @@ public class GunTurret : MonoBehaviour
     {
         if (isDestroyed) return;
         
-            if (!hasPlayedDetectionAudio)
-            {
-                detectionAudio.Play();
-                hasPlayedDetectionAudio = true;
-            }
+        if (!hasPlayedDetectionAudio)
+        { 
+            detectionAudio.Play();
+            hasPlayedDetectionAudio = true;
+        }
             
-            seePlayer = true;
-            transform.LookAt(player.transform);
-            StartCoroutine(Shoot());
+        seePlayer = true;
+        transform.LookAt(player.transform);
+
+        if (!isShooting)
+        {
+            StartCoroutine(Shoot());    
+        }
     }
     
     public void PlayerLost()
     {
-        if (!isDestroyed) return;
+        if (isDestroyed) return;
         
         seePlayer = false;
         hasPlayedDetectionAudio = false;
@@ -131,44 +135,50 @@ public class GunTurret : MonoBehaviour
     //shoot at the player, alternating gun barrels
      IEnumerator Shoot()
      {
+         isShooting = true;
+         
          yield return new WaitForSeconds(2f);
-
-         if (!seePlayer && isShooting && isDestroyed) yield break;
-
-             isShooting = true;
-             fpscontroller.damaging();
-
-             if (isLeftBarrel)
+         
+         if (!seePlayer || isDestroyed) 
+         {
+             isShooting = false;
+             yield break;
+         }
+             while (seePlayer)
              {
+                 fpscontroller.damaging();
+                 
+                 if (isLeftBarrel)
+                 {
 
-                 gunLeft.Play();
-                 particlesLeft.Play();
+                     gunLeft.Play();
+                     particlesLeft.Play();
 
-                 lightLeft.gameObject.SetActive(true);
+                     lightLeft.gameObject.SetActive(true);
 
-                 yield return new WaitForSeconds(0.06f);
+                     yield return new WaitForSeconds(0.06f);
 
-                 particlesLeft.Stop();
-                 lightLeft.gameObject.SetActive(false);
+                     particlesLeft.Stop();
+                     lightLeft.gameObject.SetActive(false);
 
-                 isLeftBarrel = false;
+                     isLeftBarrel = false;
+                 }
+
+                 if (!isLeftBarrel)
+                 {
+                     gunRight.Play();
+                     particlesRight.Play();
+
+                     lightRight.gameObject.SetActive(true);
+
+                     yield return new WaitForSeconds(0.06f);
+
+                     particlesRight.Stop();
+                     lightRight.gameObject.SetActive(false);
+
+                     isLeftBarrel = true;
+                 }
              }
-
-             if (!isLeftBarrel)
-             {
-                 gunRight.Play();
-                 particlesRight.Play();
-
-                 lightRight.gameObject.SetActive(true);
-
-                 yield return new WaitForSeconds(0.06f);
-
-                 particlesRight.Stop();
-                 lightRight.gameObject.SetActive(false);
-
-                 isLeftBarrel = true;
-             }
-
              isShooting = false;
      }
 

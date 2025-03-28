@@ -15,7 +15,7 @@ public class fpscontroller : MonoBehaviour
     [Header("Player Variables")]
     [SerializeField] private float walkingSpeed = 11.5f;
     [SerializeField] private float minWalkingSpeed = 3.5f;
-    [SerializeField] private float walkingSpeedDecrease = 1.0f;
+    [SerializeField] private float walkingSpeedDecrease = 0.2f;
     
     [SerializeField] private float jumpSpeed = 8.0f;
     [SerializeField] private float gravity = 15.0f;
