@@ -15,22 +15,19 @@ public class ShieldFunc : MonoBehaviour
     [SerializeField] private Animator shieldAnimator;
     [SerializeField] private fpscontroller playerControllerScript;
 
-    private UnityEvent defending;
-    [HideInInspector] public UnityEvent shieldTakeDamage;
-    private UnityEvent ShieldBreaking;
+    private UnityAction defending;
+    public UnityAction shieldTakeDamage;
+    private UnityAction ShieldBreaking;
 
     public bool isDefending = false;
     private bool isShieldActive = false;
     
     void Start()
     {
-        defending = new UnityEvent();
-        shieldTakeDamage = new UnityEvent();
-        ShieldBreaking = new UnityEvent();
 
-        defending.AddListener(Defend);
-        shieldTakeDamage.AddListener(DamageShield);
-        ShieldBreaking.AddListener(ShieldBreak);
+        defending+=Defend;
+        ShieldBreaking+=ShieldBreak;
+        shieldTakeDamage+=DamageShield;
     }
 
     void Update()
@@ -82,12 +79,5 @@ public class ShieldFunc : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         shieldTime = Time.time + maxCoolDownTime;
         isShieldActive = false;
-    }
-
-    private void OnDestroy()
-    {
-        defending.RemoveAllListeners();
-        shieldTakeDamage.RemoveAllListeners();
-        ShieldBreaking.RemoveAllListeners();
     }
 }
