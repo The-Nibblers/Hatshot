@@ -11,11 +11,12 @@ using UnityEngine.Serialization;
 //needs more reworking
 public class fpscontroller : MonoBehaviour
 {
-    
-    [Header("Player Variables")]
-    [SerializeField] private float walkingSpeed = 11.5f;
+
+    [Header("Player Variables")] 
+    [SerializeField] private float maxWalkingSpeed = 11.5f;
+    [SerializeField] private float currentWalkingSpeed = 11.5f;
     [SerializeField] private float minWalkingSpeed = 3.5f;
-    [SerializeField] private float walkingSpeedDecrease = 0.2f;
+    [SerializeField] private float walkingSpeedIncrement;
     
     [SerializeField] private float jumpSpeed = 8.0f;
     [SerializeField] private float gravity = 15.0f;
@@ -109,8 +110,8 @@ public class fpscontroller : MonoBehaviour
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
         // Press Left Shift to run
-        float curSpeedX = canMove ? (walkingSpeed) * Input.GetAxis("Vertical") : 0;
-        float curSpeedY = canMove ? (walkingSpeed) * Input.GetAxis("Horizontal") : 0;
+        float curSpeedX = canMove ? (currentWalkingSpeed) * Input.GetAxis("Vertical") : 0;
+        float curSpeedY = canMove ? (currentWalkingSpeed) * Input.GetAxis("Horizontal") : 0;
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
@@ -146,7 +147,7 @@ public class fpscontroller : MonoBehaviour
 
             while (Time.time < startime + dashTime)
             {
-                characterController.Move(moveDirection * dashSpeed * Time.deltaTime);
+                characterController.Move(moveDirection * (dashSpeed * Time.deltaTime));
                 yield return null;
             }
 
@@ -203,15 +204,34 @@ public class fpscontroller : MonoBehaviour
         }
         else
         {
+            CancelInvoke("RestoreWalkingSpeed");
+            
             thehealth = health - 2f;
             health = thehealth;
             
-            float thisWalkingSpeed = walkingSpeed - walkingSpeedDecrease;
-            
-            if (thisWalkingSpeed < minWalkingSpeed)
-                return;
+            float thisWalkingSpeed = currentWalkingSpeed - walkingSpeedIncrement;
 
-            walkingSpeed = thisWalkingSpeed;
+            if (thisWalkingSpeed >= minWalkingSpeed)
+            {
+                currentWalkingSpeed = thisWalkingSpeed;
+            }
+            else if (thisWalkingSpeed < minWalkingSpeed)
+            {
+                currentWalkingSpeed = minWalkingSpeed;
+            }
+            
+            InvokeRepeating("RestoreWalkingSpeed", 1f, 0.5f);
+        }
+    }
+
+    private void RestoreWalkingSpeed()
+    {
+        currentWalkingSpeed += walkingSpeedIncrement;
+        
+        if (currentWalkingSpeed >= maxWalkingSpeed)
+        {
+            currentWalkingSpeed = maxWalkingSpeed;
+            CancelInvoke("RestoreWalkingSpeed");
         }
     }
 
