@@ -27,7 +27,7 @@ public class ShieldFunc : MonoBehaviour
     {
 
         defending+=Defend;
-        ShieldBreaking+=ShieldBreak;
+        ShieldBreaking+=TryShieldBreak;
         shieldTakeDamage+=TryDamageShield;
     }
 
@@ -68,10 +68,14 @@ public class ShieldFunc : MonoBehaviour
         }
     }
 
-    private void ShieldBreak()
+    private void TryShieldBreak()
     {
         if (!isDefending) return;
 
+        ShieldBreak();
+    }
+    private void ShieldBreak()
+    {
         shieldAnimator.SetTrigger("Break");
 
         isDefending = false;
