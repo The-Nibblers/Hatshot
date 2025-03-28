@@ -14,15 +14,22 @@ public class fpscontroller : MonoBehaviour
     
     [Header("Player Variables")]
     [SerializeField] private float walkingSpeed = 11.5f;
+    [SerializeField] private float minWalkingSpeed = 3.5f;
+    [SerializeField] private float walkingSpeedDecrease = 1.0f;
+    
     [SerializeField] private float jumpSpeed = 8.0f;
     [SerializeField] private float gravity = 15.0f;
+    
     [SerializeField] private float lookSpeed = 2.0f;
     [SerializeField] private float lookXLimit = 90.0f;
+    
     [SerializeField] private float doubleJumpSpeed = 120.0f;
     [SerializeField] private float delay = 0.5f;
+    
     [SerializeField] private float coolDownPeriodInSeconds = 0.15f;
     [SerializeField] private float dashTime;
     [SerializeField] private float dashSpeed;
+    
     public float health = 100;
 
     [Header("references")]
@@ -198,6 +205,13 @@ public class fpscontroller : MonoBehaviour
         {
             thehealth = health - 2f;
             health = thehealth;
+            
+            float thisWalkingSpeed = walkingSpeed - walkingSpeedDecrease;
+            
+            if (thisWalkingSpeed < minWalkingSpeed)
+                return;
+
+            walkingSpeed = thisWalkingSpeed;
         }
     }
 
