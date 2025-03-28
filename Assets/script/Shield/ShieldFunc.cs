@@ -7,6 +7,7 @@ public class ShieldFunc : MonoBehaviour
     [Header("Shield Variables")]
     [SerializeField] private int shieldMaxHealth;
     [SerializeField] private float maxCoolDownTime;
+    [SerializeField] private int Damage;
     private float shieldTime;
     private int shieldHealth;
 
@@ -27,7 +28,7 @@ public class ShieldFunc : MonoBehaviour
 
         defending+=Defend;
         ShieldBreaking+=ShieldBreak;
-        shieldTakeDamage+=DamageShield;
+        shieldTakeDamage+=TryDamageShield;
     }
 
     void Update()
@@ -51,11 +52,16 @@ public class ShieldFunc : MonoBehaviour
         isDefending = true;
     }
 
-    private void DamageShield()
+    private void TryDamageShield()
     {
         if (!isDefending) return;
+        
+        DamageShield(Damage);
+    }
 
-        shieldHealth--;
+    private void DamageShield(int thisDamage)
+    {
+        shieldHealth -= thisDamage;
         if (shieldHealth <= 0)
         {
             ShieldBreaking.Invoke();
