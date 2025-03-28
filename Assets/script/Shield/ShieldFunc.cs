@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class ShieldFunc : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class ShieldFunc : MonoBehaviour
     [SerializeField] private Vector3 maxImpactCoordinates;
     [SerializeField] private screenShake cameraShake;
     [SerializeField] private ParticleSystem[] shieldImpactParticles;
+    
+    [Header("ui")]
+    [SerializeField] private Image shieldBorder;
+    [SerializeField] private Image shieldBar;
 
     private AudioSource shieldAudioSource;
     
@@ -31,7 +36,7 @@ public class ShieldFunc : MonoBehaviour
     public UnityAction shieldTakeDamage;
     private UnityAction ShieldBreaking;
 
-    public bool isDefending = false;
+    [HideInInspector] public bool isDefending = false;
     private bool isShieldActive = false;
     
     void Start()
@@ -59,6 +64,7 @@ public class ShieldFunc : MonoBehaviour
 
         shieldAnimator.SetTrigger("Defend");
         shieldHealth = shieldMaxHealth;
+        UpdateShieldHealthUI();
         isDefending = true;
     }
 
@@ -72,6 +78,7 @@ public class ShieldFunc : MonoBehaviour
     private void DamageShield(int thisDamage)
     {
         shieldHealth -= thisDamage;
+        UpdateShieldHealthUI();
         shieldImpactSounds[Random.Range(0,shieldImpactSounds.Length)].Play();
         shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
         StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
@@ -96,6 +103,11 @@ public class ShieldFunc : MonoBehaviour
         isShieldActive = true;
 
         StartCoroutine(ResetShieldCooldown());
+    }
+
+    private void UpdateShieldHealthUI()
+    {
+        shieldBar.fillAmount = shieldHealth / maxCoolDownTime;
     }
 
     private IEnumerator ResetShieldCooldown()
