@@ -1,9 +1,7 @@
-using UnityEngine.Events;
-
 public interface IShield
 {
     void TryDamageShield();
-    void DamageShield(int thisDamage);
+    void DamageShield(int damageAmount);
     void TryShieldBreak();
     void ShieldBreak();
 }

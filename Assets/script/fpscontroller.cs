@@ -153,7 +153,7 @@ public class fpscontroller : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            shield.defending.Invoke();
+            shield.Defending.Invoke();
         }
         if (Input.GetKeyUp(KeyCode.Mouse1))
         {
@@ -207,7 +207,7 @@ public class fpscontroller : MonoBehaviour
     {
         if (shield.isDefending)
         {
-            shield.shieldTakeDamage.Invoke();
+            shield.ShieldTakeDamage.Invoke();
         }
         else
         {

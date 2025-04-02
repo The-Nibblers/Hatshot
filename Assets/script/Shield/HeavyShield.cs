@@ -1,8 +1,6 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class HeavyShield : Shield, IPhysicalShield
@@ -21,37 +19,37 @@ public class HeavyShield : Shield, IPhysicalShield
     [SerializeField] private screenShake cameraShake;
     [SerializeField] private ParticleSystem[] shieldImpactParticles;
     
-    [Header("ui")]
+    [Header("UI")]
     [SerializeField] private Image shieldBorder;
     [SerializeField] private Image shieldBar;
     
-    //colors
+    // Colors
     private Color brokenShieldColor = Color.red;
     private Color activeShieldColor = Color.white;
     private Color inactiveShieldColor = Color.gray;
     
-    //Actions
-    public UnityAction defending;
+    // Actions
+    public UnityAction Defending;
 
-    //bools
+    // Bools
     [HideInInspector] public bool isDefending;
-    private bool IsRessetingCooldown;
+    private bool isResettingCooldown;
     
-    //array's
+    // Arrays
     [SerializeField] private string[] shieldImpactSounds;
     
-    void Start()
+    private void Start()
     {
-        defending+=Defend;
-        TryShieldBreaking+=TryShieldBreak;
-        shieldTakeDamage+=TryDamageShield;
+        Defending += Defend;
+        TryShieldBreaking += TryShieldBreak;
+        ShieldTakeDamage += TryDamageShield;
         
         SetShieldUiColor(inactiveShieldColor);
     }
 
     public void Defend()
     {
-        if (isDefending || IsRessetingCooldown) return;
+        if (isDefending || isResettingCooldown) return;
 
         shieldAnimator.SetTrigger("Defend");
         shieldHealth = shieldMaxHealth;
@@ -64,14 +62,14 @@ public class HeavyShield : Shield, IPhysicalShield
     {
         if (!isDefending) return;
         
-        DamageShield(Damage);
+        DamageShield(damage);
     }
 
-    public override void DamageShield(int thisDamage)
+    public override void DamageShield(int damageAmount)
     {
-        TookDamage = true;
+        tookDamage = true;
         UpdateShieldHealthUI();
-        shieldHealth -= thisDamage;
+        shieldHealth -= damageAmount;
         shieldSFXManager.PlayRandomSound(shieldImpactSounds, 1.0f, false);
         shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
         StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
@@ -85,19 +83,17 @@ public class HeavyShield : Shield, IPhysicalShield
     public override void TryShieldBreak()
     {
         if (!isDefending) return;
-
+        
         ShieldBreak();
     }
 
     public override void ShieldBreak()
     {
         shieldAnimator.SetTrigger("Break");
-
         isDefending = false;
-
         SetShieldUiColor(inactiveShieldColor);
         
-        if (TookDamage)
+        if (tookDamage)
         {
             StartCoroutine(ResetShieldCooldown());   
         }
@@ -108,19 +104,18 @@ public class HeavyShield : Shield, IPhysicalShield
         shieldBar.fillAmount = (float)shieldHealth / shieldMaxHealth;
     }
 
-    private void SetShieldUiColor(Color thisColor)
+    private void SetShieldUiColor(Color color)
     {
-        shieldBorder.color = thisColor;
-        thisColor.a = 0.39215686274f;
-        shieldBar.color = thisColor;
-        
+        shieldBorder.color = color;
+        color.a = 0.392f;
+        shieldBar.color = color;
     }
 
     private IEnumerator ResetShieldCooldown()
     {
-        IsRessetingCooldown = true;
-
+        isResettingCooldown = true;
         SetShieldUiColor(brokenShieldColor);
+
         float elapsedTime = 0f;
         float regenDuration = maxCoolDownTime;
         float shieldStart = shieldHealth;
@@ -130,16 +125,14 @@ public class HeavyShield : Shield, IPhysicalShield
         {
             elapsedTime += Time.deltaTime;
             shieldHealth = (int)Mathf.Lerp(shieldStart, shieldTarget, elapsedTime / regenDuration);
-        
             UpdateShieldHealthUI();
-        
             yield return null;
         }
 
         shieldHealth = shieldMaxHealth;
         UpdateShieldHealthUI();
         SetShieldUiColor(inactiveShieldColor);
-        TookDamage = false;
-        IsRessetingCooldown = false;
+        tookDamage = false;
+        isResettingCooldown = false;
     }
 }
