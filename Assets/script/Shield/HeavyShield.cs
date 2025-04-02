@@ -13,7 +13,7 @@ public class HeavyShield : Shield, IPhysicalShield
     [Header("References")]
     [SerializeField] private GameObject shieldGameObject;
     [SerializeField] private Animator shieldAnimator;
-    [SerializeField] private AudioSource[] shieldImpactSounds;
+    [SerializeField] private SFX_Manager shieldSFXManager;
 
     [Header("Effects")] 
     [SerializeField] private Vector3 minImpactCoordinates;
@@ -36,7 +36,9 @@ public class HeavyShield : Shield, IPhysicalShield
     //bools
     [HideInInspector] public bool isDefending;
     private bool IsRessetingCooldown;
-    private bool TookDamage;
+    
+    //array's
+    [SerializeField] private string[] shieldImpactSounds;
     
     void Start()
     {
@@ -82,7 +84,7 @@ public class HeavyShield : Shield, IPhysicalShield
         TookDamage = true;
         UpdateShieldHealthUI();
         shieldHealth -= thisDamage;
-        shieldImpactSounds[Random.Range(0,shieldImpactSounds.Length)].Play();
+        shieldSFXManager.PlaySound(shieldImpactSounds[0], 1.0f, false);
         shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
         StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
         
