@@ -111,5 +111,6 @@ public class cutscenebridge : MonoBehaviour
         helth1.gameObject.SetActive(true);
         helth2.gameObject.SetActive(true);
         helth3.gameObject.SetActive(true);
+        Shield.gameObject.SetActive(true);
     }
 }
