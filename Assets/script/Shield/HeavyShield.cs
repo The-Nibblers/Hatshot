@@ -5,18 +5,14 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class ShieldFunc : MonoBehaviour
+public class HeavyShield : Shield, IPhysicalShield
 {
-    [Header("Shield Variables")]
-    [SerializeField] private int shieldMaxHealth;
+    [Header("Shield Variables Instance")]
     [SerializeField] private float maxCoolDownTime;
-    [SerializeField] private int Damage;
-    private int shieldHealth;
-
+    
     [Header("References")]
     [SerializeField] private GameObject shieldGameObject;
     [SerializeField] private Animator shieldAnimator;
-    [SerializeField] private fpscontroller playerControllerScript;
     [SerializeField] private AudioSource[] shieldImpactSounds;
 
     [Header("Effects")] 
@@ -28,19 +24,14 @@ public class ShieldFunc : MonoBehaviour
     [Header("ui")]
     [SerializeField] private Image shieldBorder;
     [SerializeField] private Image shieldBar;
-
-    private AudioSource shieldAudioSource;
     
     //colors
     private Color brokenShieldColor = Color.red;
     private Color activeShieldColor = Color.white;
     private Color inactiveShieldColor = Color.gray;
     
-    
-    //delegates
+    //Actions
     private UnityAction defending;
-    public UnityAction shieldTakeDamage;
-    private UnityAction ShieldBreaking;
 
     //bools
     [HideInInspector] public bool isDefending;
@@ -68,7 +59,7 @@ public class ShieldFunc : MonoBehaviour
         }
     }
 
-    private void Defend()
+    public void Defend()
     {
         if (isDefending || IsRessetingCooldown) return;
 
@@ -79,14 +70,14 @@ public class ShieldFunc : MonoBehaviour
         isDefending = true;
     }
 
-    private void TryDamageShield()
+    public override void TryDamageShield()
     {
         if (!isDefending) return;
         
         DamageShield(Damage);
     }
 
-    private void DamageShield(int thisDamage)
+    public override void DamageShield(int thisDamage)
     {
         TookDamage = true;
         UpdateShieldHealthUI();
@@ -100,14 +91,15 @@ public class ShieldFunc : MonoBehaviour
             ShieldBreaking.Invoke();
         }
     }
-    
-    private void TryShieldBreak()
+
+    public override void TryShieldBreak()
     {
         if (!isDefending) return;
 
         ShieldBreak();
     }
-    private void ShieldBreak()
+
+    public override void ShieldBreak()
     {
         shieldAnimator.SetTrigger("Break");
 

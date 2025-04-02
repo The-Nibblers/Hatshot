@@ -199,8 +199,11 @@ public class GunTurret : MonoBehaviour
     } 
 
     private void OnDestroy()
-    {
-        onSeePlayer.RemoveAllListeners();
-        onLosePlayer.RemoveAllListeners();
+    {   
+        if (onSeePlayer != null)
+            onSeePlayer.RemoveAllListeners();
+
+        if (onLosePlayer != null)
+            onLosePlayer.RemoveAllListeners();
     }
 }

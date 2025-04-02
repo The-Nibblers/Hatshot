@@ -8,7 +8,6 @@ using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 
-//needs more reworking
 public class fpscontroller : MonoBehaviour
 {
 
@@ -62,7 +61,7 @@ public class fpscontroller : MonoBehaviour
     [SerializeField] private GameObject doubleJumpHat;
     
     //shield script
-    [SerializeField] private ShieldFunc shield;
+    [SerializeField] private HeavyShield shield;
 
     private CharacterController characterController;
     private Vector3 moveDirection = Vector3.zero;
