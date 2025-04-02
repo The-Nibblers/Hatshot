@@ -31,7 +31,7 @@ public class HeavyShield : Shield, IPhysicalShield
     private Color inactiveShieldColor = Color.gray;
     
     //Actions
-    private UnityAction defending;
+    public UnityAction defending;
 
     //bools
     [HideInInspector] public bool isDefending;
@@ -43,22 +43,10 @@ public class HeavyShield : Shield, IPhysicalShield
     void Start()
     {
         defending+=Defend;
-        ShieldBreaking+=TryShieldBreak;
+        TryShieldBreaking+=TryShieldBreak;
         shieldTakeDamage+=TryDamageShield;
         
         SetShieldUiColor(inactiveShieldColor);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            defending.Invoke();
-        }
-        if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            ShieldBreaking.Invoke();
-        }
     }
 
     public void Defend()
@@ -90,7 +78,7 @@ public class HeavyShield : Shield, IPhysicalShield
         
         if (shieldHealth <= 0)
         {
-            ShieldBreaking.Invoke();
+            TryShieldBreaking.Invoke();
         }
     }
 

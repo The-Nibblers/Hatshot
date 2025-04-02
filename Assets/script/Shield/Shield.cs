@@ -12,7 +12,7 @@ public abstract class Shield : MonoBehaviour, IShield
     
     //Actions
     public UnityAction shieldTakeDamage;
-    protected UnityAction ShieldBreaking;
+    public UnityAction TryShieldBreaking;
     
     //bools
     protected bool TookDamage;

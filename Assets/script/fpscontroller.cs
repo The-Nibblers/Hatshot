@@ -149,8 +149,17 @@ public class fpscontroller : MonoBehaviour
                 characterController.Move(moveDirection * (dashSpeed * Time.deltaTime));
                 yield return null;
             }
-
         }
+        
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            shield.defending.Invoke();
+        }
+        if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            shield.TryShieldBreaking.Invoke();
+        }
+        
         // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
         // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
@@ -191,9 +200,8 @@ public class fpscontroller : MonoBehaviour
             deathButton.gameObject.SetActive(true);
 
         }
-
-
     }
+    
     //health and damage system
     public void damaging()
     {
