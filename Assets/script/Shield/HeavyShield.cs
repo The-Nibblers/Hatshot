@@ -84,7 +84,7 @@ public class HeavyShield : Shield, IPhysicalShield
         TookDamage = true;
         UpdateShieldHealthUI();
         shieldHealth -= thisDamage;
-        shieldSFXManager.PlaySound(shieldImpactSounds[0], 1.0f, false);
+        shieldSFXManager.PlayRandomSound(shieldImpactSounds, 1.0f, false);
         shieldImpactParticles[Random.Range(0, shieldImpactParticles.Length)].Play();
         StartCoroutine(cameraShake.Shake(0.2f, 0.3f));
         
