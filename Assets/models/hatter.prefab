@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 4673294391638746465}
   - component: {fileID: 369008258171734991}
   - component: {fileID: 6155679639678949523}
+  - component: {fileID: 1764897281233530156}
   m_Layer: 0
   m_Name: hatter
   m_TagString: Untagged
@@ -116,7 +117,7 @@ Transform:
   - {fileID: 1975651465175865531}
   - {fileID: 1113217309771569359}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &369008258171734991
 Rigidbody:
@@ -147,6 +148,18 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.3280632
   m_Center: {x: 0, y: 0.43084025, z: 0}
+--- !u!114 &1764897281233530156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5445187101538893787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfc9faacdc37b4a418bf10e369670fda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8496448174486293642
 GameObject:
   m_ObjectHideFlags: 0
