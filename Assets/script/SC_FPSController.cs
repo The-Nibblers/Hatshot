@@ -9,100 +9,100 @@ using UnityEngine.SceneManagement;
 
 public class SC_FPSController : MonoBehaviour
 {
-    public float walkingSpeed = 11.5f;
+    [Header("Player Variables")]
+    [SerializeField] private float walkingSpeed = 11.5f;
 
-    public float jumpSpeed = 8.0f;
-    public float gravity = 15.0f;
-    public Camera PlayerCamera;
-    public float lookSpeed = 2.0f;
-    public float lookXLimit = 90.0f;
+    [SerializeField] private float jumpSpeed = 8.0f;
+    [SerializeField] private float gravity = 15.0f;
+    [SerializeField] private Camera PlayerCamera;
+    [SerializeField] private float lookSpeed = 2.0f;
+    [SerializeField] private float lookXLimit = 90.0f;
 
-    //turtorial things
-    public Animator tut;
-    public Text tuttext;
+    [Header("Turotirla variables")]
+    [SerializeField] private Animator tut;
+    [SerializeField] private Text tuttext;
 
-    // music
-    public AudioSource music_calm;
-    public AudioSource rain_normal;
-    public AudioSource rain_metal;
-    public AudioSource music_loud;
-    public AudioSource shotgun_pickupSfx;
-    public AudioSource doorsfx;
+    [Header("Muisc references")]
+    [SerializeField] private AudioSource music_calm;
+    [SerializeField] private AudioSource rain_normal;
+    [SerializeField] private AudioSource rain_metal;
+    [SerializeField] private AudioSource music_loud;
+    [SerializeField] private AudioSource shotgun_pickupSfx;
+    [SerializeField] private AudioSource doorsfx;
 
-    //shotgun pickup animation
-    public GameObject shotgun_pickup;
-    public GameObject shotgun_pickup_inperson;
-    public Animator shotguner;
+    [Header("shotgun animation references")]
+    [SerializeField] private GameObject shotgun_pickup;
+    [SerializeField] private GameObject shotgun_pickup_inperson;
+    [SerializeField] private Animator shotguner;
 
-    //fall
-    public GameObject addrb1;
-    public GameObject addrb2;
-    public GameObject addrb3;
-    public GameObject addrb4;
-    public GameObject addrb5;
-    public AudioSource clonk;
+    [Header("area 3 falling playform")]
+    [SerializeField] private GameObject addrb1;
+    [SerializeField] private GameObject addrb2;
+    [SerializeField] private GameObject addrb3;
+    [SerializeField] private GameObject addrb4;
+    [SerializeField] private GameObject addrb5;
+    [SerializeField] private AudioSource clonk;
 
-    // animationstart
-    public Animator startanim;
-    public GameObject backdrop;
-    public bool yes = false;
+    [Header("starting animation")]
+    [SerializeField] private Animator startanim;
+    [SerializeField] private GameObject backdrop;
 
-    //dash
-    public float dashTime;
-    public float dashSpeed;
-    public AudioSource dashsfx;
-    public int canDash = 0;
+    [Header("dash references")]
+    [SerializeField] private float dashTime;
+    [SerializeField] private float dashSpeed;
+    [SerializeField] private AudioSource dashsfx;
+    private bool canDash;
     private float coolDownPeriodInSeconds = 0.15f;
 
-    // doublejump
-    public int fuckyou = 0;
-    public bool doJump = false;
-    public float doubleJumpSpeed = 120.0f;
+    [Header("floating references")]
+    private int fuckyou = 0;
+    private bool doJump = false;
+    private float doubleJumpSpeed = 120.0f;
 
-    //hat wearing
-    public GameObject normalHat;
-    public GameObject rocketHat;
-    public GameObject doubleJumpHat;
+    [Header("hat wering variables")]
+    [SerializeField] private GameObject normalHat;
+    [SerializeField] private GameObject rocketHat;
+    [SerializeField] private GameObject doubleJumpHat;
 
-    //hat UI elements
-    public GameObject UIHat1;
-    public GameObject UIHat2;
-    public GameObject UIHat3;
+    [Header("ui references")]
+    [SerializeField] private GameObject UIHat1;
+    [SerializeField] private GameObject UIHat2;
+    [SerializeField] private GameObject UIHat3;
 
-    //detection
-    public int hat;
-    public Text hattext;
+    [Header("hat picking up variables")]
+    private int hat;
+    [SerializeField] private Text hattext;
     private string s;
 
-    //keys
-    public int keys = 0;
-    public GameObject keyUI1;
-    public GameObject keyUI2;
-    public GameObject keyUI3;
+    [Header("key variables")]
+    private int keys = 0;
+    [SerializeField] private GameObject keyUI1;
+    [SerializeField] private GameObject keyUI2;
+    [SerializeField] private GameObject keyUI3;
 
-    //door 1 animation
-    public Animator door1anim;
-    public GameObject door1obj;
+    [Header("door animations")]
+    [SerializeField] private Animator door1anim;
+    [SerializeField] private GameObject door1obj;
 
     //door 2 animation
-    public Animator door2anim;
-    public GameObject door2obj;
+    [SerializeField] private Animator door2anim;
+    [SerializeField] private GameObject door2obj;
 
     //door 3 animation
-    public Animator door3anim;
-    public GameObject door3obj;
+    [SerializeField] private Animator door3anim;
+    [SerializeField] private GameObject door3obj;
 
     //glass door animation
-    public Animator doorglassanim;
-    public GameObject doorglassobj;
+    [SerializeField] private Animator doorglassanim;
+    [SerializeField] private GameObject doorglassobj;
 
-    //area1 flare
-    public ParticleSystem rockethatflare;
+    [Header("flare references")]
+    [SerializeField] private ParticleSystem rockethatflare;
 
     // area 2 flare
-    public ParticleSystem area2Flare;
+    [SerializeField] private ParticleSystem area2Flare;
 
-CharacterController characterController;
+    CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
@@ -206,7 +206,7 @@ CharacterController characterController;
         // dash
         if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > coolDownPeriodInSeconds)
         {
-            if (canDash == 1)
+            if (canDash == true)
             {
                 dashsfx.Play();
                 StartCoroutine(dash());
@@ -323,7 +323,7 @@ CharacterController characterController;
             normalHat.gameObject.SetActive(false);
             rockethatflare.Stop();
             Destroy(other.gameObject);
-            canDash = 1;
+            canDash = true;
             UIHat1.SetActive(false);
             UIHat2.SetActive(true);
         }
