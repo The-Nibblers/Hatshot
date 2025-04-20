@@ -22,7 +22,7 @@ public class spawnbeginarea : MonoBehaviour
             Random.Range(minPosition.z, maxPosition.z)
         );
         
-        int i = Random.Range(5, 10);
+        int i = Random.Range(2, 5);
 
         yield return new WaitForSeconds(i);
 

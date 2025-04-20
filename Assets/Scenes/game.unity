@@ -293,7 +293,7 @@ GameObject:
   m_TagString: fall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &10496280
 Transform:
@@ -31270,7 +31270,7 @@ GameObject:
   m_TagString: fall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &613272215
 Transform:
@@ -50527,7 +50527,7 @@ GameObject:
   m_TagString: fall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1316233453
 Transform:
@@ -51672,23 +51672,16 @@ MonoBehaviour:
   clonk: {fileID: 2019339074}
   startanim: {fileID: 429937902}
   backdrop: {fileID: 429937898}
-  yes: 0
   dashTime: 0.2
   dashSpeed: 5
   dashsfx: {fileID: 1117246613}
-  canDash: 0
-  fuckyou: 0
-  doJump: 0
-  doubleJumpSpeed: 8
   normalHat: {fileID: 1364059561}
   rocketHat: {fileID: 1087246656}
   doubleJumpHat: {fileID: 310731730}
   UIHat1: {fileID: 1343392632}
   UIHat2: {fileID: 1929224266}
   UIHat3: {fileID: 21334583}
-  hat: 0
   hattext: {fileID: 1154330435}
-  keys: 0
   keyUI1: {fileID: 2108237429}
   keyUI2: {fileID: 728565531}
   keyUI3: {fileID: 1284503506}
@@ -52382,7 +52375,7 @@ GameObject:
   m_TagString: fall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1383423530
 Transform:
@@ -67795,7 +67788,7 @@ GameObject:
   m_TagString: fall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2019339069
 Transform:
@@ -72127,7 +72120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2222379079799544179, guid: a99c2768e1bc34ca48a6f4f23370e996, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5860001389004623358, guid: a99c2768e1bc34ca48a6f4f23370e996, type: 3}
       propertyPath: m_Volume
