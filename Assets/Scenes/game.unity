@@ -13779,7 +13779,7 @@ GameObject:
   - component: {fileID: 326577477}
   - component: {fileID: 326577476}
   - component: {fileID: 326577475}
-  - component: {fileID: 326577474}
+  - component: {fileID: 326577478}
   m_Layer: 6
   m_Name: telestart
   m_TagString: Untagged
@@ -13802,20 +13802,6 @@ Transform:
   m_Father: {fileID: 543630711}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &326577474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326577472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e7aaa461c97fe546a7692a9dc640223, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teleporTtarget: {fileID: 1489559442}
-  thePlayer: {fileID: 1355692884}
 --- !u!65 &326577475
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13879,6 +13865,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 326577472}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &326577478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326577472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4dae9003444746fa90ca4edcd243582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleporTtarget: {fileID: 1489559442}
+  thePlayer: {fileID: 1355692884}
 --- !u!4 &328011277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8705007899977441283, guid: d36ec2a726632ff4cba008e4e8e228bb, type: 3}
@@ -26244,7 +26244,6 @@ MonoBehaviour:
   radius: 10
   minPosition: {x: 21.8, y: -0.66, z: 30.93}
   maxPosition: {x: -33, y: 0.3, z: -16.22}
-  Thing: {fileID: 0}
 --- !u!1 &596817791
 GameObject:
   m_ObjectHideFlags: 0

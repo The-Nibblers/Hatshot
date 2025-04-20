@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class teleport : MonoBehaviour
 {
-    public Transform teleporTtarget;
-    public GameObject thePlayer;
+    [SerializeField] private Transform teleporTtarget;
+    [SerializeField] private GameObject thePlayer;
 
     private void OnTriggerEnter(Collider other)
     {
